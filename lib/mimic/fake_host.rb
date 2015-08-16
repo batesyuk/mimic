@@ -193,7 +193,7 @@ module Mimic
       end
 
       def unmatched_response
-        [404, "", {}]
+        [404, {}, ""]
       end
 
       def response_for_request(request)
