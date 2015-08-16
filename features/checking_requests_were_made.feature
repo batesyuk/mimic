@@ -2,7 +2,7 @@ Feature: Checking requests were made
   In order to verify requests were made to mimic (like mock expectations)
   As a developer
   I want to be able to ask the Mimic API what requests were made
-  
+
   Scenario: Configuring a request and verifying it was called
     Given that Mimic is running and accepting remote configuration on "/api"
     When I make an HTTP POST request to "http://localhost:11988/api/get" with the payload:
@@ -35,5 +35,3 @@ Feature: Checking requests were made
       """
       {"requests":[]}
       """
-    
-    

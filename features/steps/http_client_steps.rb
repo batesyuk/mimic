@@ -38,10 +38,12 @@ Then /^I should receive an HTTP (\d+) response with a body matching "([^\"]*)"$/
 end
 
 Then /^I should receive an HTTP (\d+) response with a body containing:$/ do |status_code, http_body|
+  #@httpclient.should have_response_with_code(status_code.to_i)
   @httpclient.should have_response_with_code_and_body(status_code.to_i, http_body)
 end
 
 Then /^I should receive an HTTP (\d+) response$/ do |status_code|
+  File.open("./shiz.html", 'w') { |file| file.write("response #{@httpclient.last_response.body}") }
   @httpclient.should have_response_with_code(status_code.to_i)
 end
 
