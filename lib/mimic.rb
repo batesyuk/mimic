@@ -61,7 +61,7 @@ module Mimic
       Rack::Handler::Thin.run(app.url_map, {
         :Port       => options[:port],
         :Logger     => logger,
-        :AccessLog  => logger,
+        :AccessLog  => logger
       })
     end
 
