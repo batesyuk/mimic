@@ -16,7 +16,6 @@ module Mimic
 
   def self.mimic(options = {}, &block)
     options = MIMIC_DEFAULT_OPTIONS.merge(options)
-
     host = FakeHost.new(options).tap do |host|
       host.instance_eval(&block) if block_given?
       Server.instance.serve(host, options)
@@ -27,13 +26,13 @@ module Mimic
   def self.cleanup!
     Mimic::Server.instance.shutdown
   end
-  
+
   def self.reset_all!
     @hosts.each { |h| h.clear }
   end
-  
+
   private
-  
+
   def self.add_host(host)
     host.tap { |h| (@hosts ||= []) << h }
   end
@@ -59,24 +58,15 @@ module Mimic
     end
 
     def start_service(app, options)
-      Rack::Handler::WEBrick.run(app.url_map, {
+      Rack::Handler::Thin.run(app.url_map, {
         :Port       => options[:port],
         :Logger     => logger,
-        :AccessLog  => logger,
-
-      }) do |server|
-        @server = server
-
-        old = trap('EXIT') do
-          old.call if old
-          @server.shutdown
-        end
-      end
+        :AccessLog  => logger
+      })
     end
 
     def shutdown
       Thread.kill(@thread) if @thread
-      @server.shutdown if @server
     end
 
     # courtesy of http://is.gd/eoYho

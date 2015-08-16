@@ -28,11 +28,11 @@ require "rdoc/task"
 spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
-  s.name              = "mimic"
-  s.version           = "0.4.3"
-  s.summary           = "A Ruby gem for faking external web services for testing"
-  s.authors           = "Luke Redpath"
-  s.email             = "luke@lukeredpath.co.uk"
+  s.name              = "mimic2"
+  s.version           = "2.4.4"
+  s.summary           = "A Ruby gem for faking external web services for testing, forked version of Luke Redpath's mimic"
+  s.authors           = "Luke Redpath, Nic Jackson"
+  s.email             = "jackson.nic@gmail.com, luke@lukeredpath.co.uk"
   s.homepage          = "http://lukeredpath.co.uk"
 
   s.has_rdoc          = true
@@ -47,8 +47,9 @@ spec = Gem::Specification.new do |s|
   # relevant versions
   s.add_dependency("rack")
   s.add_dependency("sinatra")
+  s.add_dependency("thin")
   s.add_dependency("json")
-  s.add_dependency("plist")
+  s.add_dependency("plist", "~> 3.1.0")
 
   # If your tests use any gems, include them here
   s.add_development_dependency("rspec", "~> 2.4.0")
@@ -62,7 +63,7 @@ end
 # be automatically building a gem for this project. If you're not
 # using GitHub, edit as appropriate.
 #
-# To publish your gem online, install the 'gemcutter' gem; Read more 
+# To publish your gem online, install the 'gemcutter' gem; Read more
 # about that here: http://gemcutter.org/pages/gem_docs
 Gem::PackageTask.new(spec) do |pkg|
   pkg.gem_spec = spec
