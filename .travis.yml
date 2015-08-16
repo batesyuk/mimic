@@ -2,4 +2,6 @@ language: ruby
 rvm:
   - 2.1.0
 
-script: rake all
+script:
+  - bundle
+  - rake all
