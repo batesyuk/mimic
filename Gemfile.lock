@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mimic (0.4.3)
+    mimic2 (2.4.4)
       json
       plist (~> 3.1.0)
       rack
@@ -59,7 +59,7 @@ PLATFORMS
 
 DEPENDENCIES
   cucumber
-  mimic!
+  mimic2!
   mocha
   rake
   rdoc
