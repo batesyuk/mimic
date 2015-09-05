@@ -5,3 +5,7 @@ rvm:
 script:
   - rake bundle
   - rake all
+
+deploy:
+  on:
+    branch: master

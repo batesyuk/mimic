@@ -58,6 +58,7 @@ Feature: Configuring Mimic via an HTTP interface
     And I make an HTTP HEAD request to "http://localhost:11988/anything"
     Then I should receive an HTTP 200 response with an empty body
 
+  @test
   Scenario: Stubbing a request path to return a custom response body
     Given that Mimic is running and accepting remote configuration on "/api"
     When I make an HTTP POST request to "http://localhost:11988/api/get" with the payload:

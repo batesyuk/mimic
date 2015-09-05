@@ -1,5 +1,8 @@
 require 'sinatra/base'
 require 'mimic/api'
+require 'mimic/server'
+require 'mimic/stubbed_request'
+require 'helpers/helpers'
 
 module Mimic
   class FakeHost
@@ -11,11 +14,12 @@ module Mimic
       @remote_configuration_path = options[:remote_configuration_path]
       @log = options[:log]
       @imports = []
-      clear
+      setup_sinatra
       build_url_map!
     end
 
     def received_requests
+      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_RECEIVED_REQUESTS: #{@stubs}\n") }
       @stubs.select { |s| s.received }
     end
 
@@ -50,11 +54,10 @@ module Mimic
 
     def call(env)
       @stubs.each(&:build)
-      File.open("./shiz.txt", 'w') { |file| file.write("response #{env}") }
       @app.call(env)
     end
 
-    def clear
+    def setup_sinatra
       @stubs = []
       @app = Sinatra.new
       @app.use Rack::CommonLogger, self.log if self.log
@@ -67,17 +70,22 @@ module Mimic
       @imports.each { |file| import(file) }
     end
 
+    def clear
+      setup_sinatra
+    end
+
     def inspect
       @stubs.inspect
     end
 
     private
-
     def method_missing(method, *args, &block)
       @app.send(method, *args, &block)
     end
 
     def request(method, path, &block)
+      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_REQUEST: #{method} #{path} #{block_given?}\n") }
+
       if block_given?
         @app.send(method.downcase, path, &block)
       else
@@ -95,123 +103,6 @@ module Mimic
       end
 
       @url_map = Rack::URLMap.new(routes)
-    end
-
-    module Helpers
-      def echo_request!(format)
-        RequestEcho.new(request).response_as(format)
-      end
-    end
-
-    class RequestEcho
-      def initialize(request)
-        @request = request
-      end
-
-      def response_as(format)
-        content_type = case format
-        when :json, :plist
-          "application/#{format.to_s.downcase}"
-        else
-          "text/plain"
-        end
-        [200, {"Content-Type" => content_type}, to_s(format)]
-      end
-
-      def to_s(format)
-        case format
-          when :json
-            to_hash.to_json
-          when :plist
-            to_hash.to_plist
-          when :text
-            to_hash.inspect
-        end
-      end
-
-      def to_hash
-        {"echo" => {
-          "params" => @request.params,
-          "env"    => env_without_rack_and_async_env,
-          "body"   => @request.body.read
-        }}
-      end
-
-      private
-
-      def env_without_rack_and_async_env
-        Hash[*@request.env.select { |key, value| key !~ /^(rack|async)/i }.flatten]
-      end
-    end
-
-    class StubbedRequest
-      attr_accessor :received
-
-      def initialize(app, method, path)
-        @method, @path = method, path
-        @code = 200
-        @headers = {}
-        @params = {}
-        @body = ""
-        @app = app
-        @received = false
-      end
-
-      def to_hash
-        token = "#{@method} #{@path}"
-        Digest::MD5.hexdigest(token)
-      end
-
-      def returning(body, code = 200, headers = {})
-        tap do
-          @body = body
-          @code = code
-          @headers = headers
-        end
-      end
-
-      def with_query_parameters(params)
-        tap do
-          @params = params
-        end
-      end
-
-      def echo_request!(format = :json)
-        @echo_request_format = format
-      end
-
-      def matches?(request)
-        if @params.any?
-          request.params == @params
-        else
-          true
-        end
-      end
-
-      def matched_response
-        [@code, @headers, @body]
-      end
-
-      def unmatched_response
-        [404, {}, ""]
-      end
-
-      def response_for_request(request)
-        if @echo_request_format
-          @body = RequestEcho.new(request).to_s(@echo_request_format)
-        end
-
-        matches?(request) ? matched_response : unmatched_response
-      end
-
-      def build
-        stub = self
-
-        @app.send(@method.downcase, @path) do
-          stub.received = true
-          stub.response_for_request(request)
-        end
-      end
     end
   end
 end

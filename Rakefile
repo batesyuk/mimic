@@ -29,11 +29,11 @@ spec = Gem::Specification.new do |s|
 
   # Change these as appropriate
   s.name              = "mimic2"
-  s.version           = "2.4.4"
+  s.version           = "2.0.0"
   s.summary           = "A Ruby gem for faking external web services for testing, forked version of Luke Redpath's mimic"
   s.authors           = "Luke Redpath, Nic Jackson"
   s.email             = "jackson.nic@gmail.com, luke@lukeredpath.co.uk"
-  s.homepage          = "http://lukeredpath.co.uk"
+  s.homepage          = "https://github.com/nicholasjackson/mimic"
 
   s.has_rdoc          = true
   s.extra_rdoc_files  = %w(README.md)
@@ -52,8 +52,8 @@ spec = Gem::Specification.new do |s|
   s.add_dependency("plist", "~> 3.1.0")
 
   # If your tests use any gems, include them here
-  s.add_development_dependency("rspec", "~> 2.4.0")
-  s.add_development_dependency("cucumber")
+  s.add_development_dependency("rspec", "~> 3.3.0")
+  s.add_development_dependency("cucumber", "~> 2.0.2")
   s.add_development_dependency("mocha")
   s.add_development_dependency("rest-client")
 end
