@@ -1,8 +1,8 @@
 language: ruby
 rvm:
 - 2.1.0
+install: rake bundle
 script:
-- rake bundle
 - rake all
 - rake package
 deploy:
