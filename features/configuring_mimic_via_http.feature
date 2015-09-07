@@ -100,7 +100,6 @@ Feature: Configuring Mimic via an HTTP interface
     And I make an HTTP GET request to "http://localhost:11988/anything?foo=bar"
     Then I should receive an HTTP 200 response
 
-  @test
   Scenario: Stubbing a request to echo it's request
     Given that Mimic is running and accepting remote configuration on "/api"
     When I make an HTTP POST request to "http://localhost:11988/api/get" with the payload:

@@ -35,6 +35,6 @@ module Mimic
   private
 
   def self.add_host(host)
-    (@hosts ||= []) << host
+    host.tap { |h| (@hosts ||= []) << h }
   end
 end
