@@ -1,3 +1,5 @@
+require 'singleton'
+
 module Mimic
   class Server
     include Singleton
