@@ -1,23 +1,24 @@
 # -*- encoding: utf-8 -*-
+# stub: mimic2 2.0.0 ruby lib
 
 Gem::Specification.new do |s|
-  s.name = "mimic"
-  s.version = "0.4.3"
+  s.name = "mimic2"
+  s.version = "2.0.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Luke Redpath"]
-  s.date = "2012-03-17"
-  s.email = "luke@lukeredpath.co.uk"
-  s.extra_rdoc_files = ["README.md"]
-  s.files = ["LICENSE", "CHANGES", "Rakefile", "README.md", "spec", "lib/mimic", "lib/mimic/api.rb", "lib/mimic/fake_host.rb", "lib/mimic.rb"]
-  s.homepage = "http://lukeredpath.co.uk"
-  s.rdoc_options = ["--main", "README.md"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
-  s.summary = "A Ruby gem for faking external web services for testing"
+  s.authors = ["Luke Redpath, Nic Jackson"]
+  s.date = "2015-09-07"
+  s.email = "jackson.nic@gmail.com, luke@lukeredpath.co.uk"
+  s.extra_rdoc_files = ["README.md"]
+  s.files = ["CHANGES", "LICENSE", "README.md", "Rakefile", "lib/helpers", "lib/helpers/helpers.rb", "lib/helpers/request_echo.rb", "lib/mimic", "lib/mimic.rb", "lib/mimic/api.rb", "lib/mimic/api_request.rb", "lib/mimic/fake_host.rb", "lib/mimic/server.rb", "lib/mimic/stub.rb", "lib/mimic/stubbed_request.rb", "spec"]
+  s.homepage = "https://github.com/nicholasjackson/mimic"
+  s.rdoc_options = ["--main", "README.md"]
+  s.rubygems_version = "2.2.2"
+  s.summary = "A Ruby gem for faking external web services for testing, forked and updated version of Luke Redpath's mimic"
 
   if s.respond_to? :specification_version then
-    s.specification_version = 3
+    s.specification_version = 4
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rack>, [">= 0"])
@@ -25,8 +26,8 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<thin>, [">= 0"])
       s.add_runtime_dependency(%q<json>, [">= 0"])
       s.add_runtime_dependency(%q<plist>, ["~> 3.1.0"])
-      s.add_development_dependency(%q<rspec>, ["~> 2.4.0"])
-      s.add_development_dependency(%q<cucumber>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, ["~> 3.3.0"])
+      s.add_development_dependency(%q<cucumber>, ["~> 2.0.2"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<rest-client>, [">= 0"])
     else
@@ -35,8 +36,8 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<thin>, [">= 0"])
       s.add_dependency(%q<json>, [">= 0"])
       s.add_dependency(%q<plist>, ["~> 3.1.0"])
-      s.add_dependency(%q<rspec>, ["~> 2.4.0"])
-      s.add_dependency(%q<cucumber>, [">= 0"])
+      s.add_dependency(%q<rspec>, ["~> 3.3.0"])
+      s.add_dependency(%q<cucumber>, ["~> 2.0.2"])
       s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<rest-client>, [">= 0"])
     end
@@ -46,8 +47,8 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<thin>, [">= 0"])
     s.add_dependency(%q<json>, [">= 0"])
     s.add_dependency(%q<plist>, ["~> 3.1.0"])
-    s.add_dependency(%q<rspec>, ["~> 2.4.0"])
-    s.add_dependency(%q<cucumber>, [">= 0"])
+    s.add_dependency(%q<rspec>, ["~> 3.3.0"])
+    s.add_dependency(%q<cucumber>, ["~> 2.0.2"])
     s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<rest-client>, [">= 0"])
   end

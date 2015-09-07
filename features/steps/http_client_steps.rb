@@ -40,28 +40,29 @@ Then /^I should receive an HTTP (\d+) response with an empty body$/ do |status_c
 end
 
 Then /^I should receive an HTTP (\d+) response with a body matching "([^\"]*)"$/ do |status_code, http_body|
-  @httpclient.should have_response_with_code_and_body(status_code.to_i, http_body)
+  expect(@httpclient).to have_response_with_code_and_body(status_code.to_i, http_body)
 end
 
 Then /^I should receive an HTTP (\d+) response with a body containing:$/ do |status_code, http_body|
+  puts "Shiz:#{@httpclient.last_response.code} #{@httpclient.last_response.body}"
   #@httpclient.should have_response_with_code(status_code.to_i)
-  @httpclient.should have_response_with_code_and_body(status_code.to_i, http_body)
+  expect(@httpclient).to have_response_with_code_and_body(status_code.to_i, http_body)
 end
 
 Then /^I should receive an HTTP (\d+) response$/ do |status_code|
-  @httpclient.should have_response_with_code(status_code.to_i)
+  expect(@httpclient).to have_response_with_code(status_code.to_i)
 end
 
 Then /^I should receive an HTTP (\d+) response with the value "([^\"]*)" for the header "([^\"]*)"$/ do |status_code, header_value, header_key|
-  @httpclient.should have_response_with_code_and_header(status_code.to_i, header_key, header_value)
+  expect(@httpclient).to have_response_with_code_and_header(status_code.to_i, header_key, header_value)
 end
 
 Then /^I should receive an HTTP (\d+) response with the JSON value "([^\"]*)" for the key path "([^\"]*)"$/ do |status, json_value, key_path|
   json = JSON.parse(@httpclient.last_response.to_s)
-  json.value_for_key_path(key_path).should == json_value
+  expect(json.value_for_key_path(key_path)).to eq(json_value)
 end
 
 Then /^I should receive an HTTP (\d+) response with the Plist value "([^\"]*)" for the key path "([^\"]*)"$/ do |status, json_value, key_path|
   plist = Plist.parse_xml(@httpclient.last_response.to_s)
-  plist.value_for_key_path(key_path).should == json_value
+  expect(plist.value_for_key_path(key_path)).to eq(json_value)
 end
