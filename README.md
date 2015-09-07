@@ -1,4 +1,4 @@
-# Mimic, simple web service stubs for testing [![Build Status](https://secure.travis-ci.org/lukeredpath/mimic.png)](https://secure.travis-ci.org/lukeredpath/mimic)
+# Mimic, simple web service stubs for testing [![Build Status](https://travis-ci.org/nicholasjackson/mimic.svg?branch=master)](https://travis-ci.org/nicholasjackson/mimic)
 
 ## What is Mimic?
 Mimic is a testing tool that lets you set create a fake stand-in for an external web service to be used when writing integration/end-to-end tests for applications or libraries that access these services.
