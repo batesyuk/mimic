@@ -1,7 +1,7 @@
 language: ruby
 rvm:
-- 2.1.0
-install: rake bundle
+- 2.1.6
+install: bundle
 script:
 - rake all
 - rake package

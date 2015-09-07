@@ -93,8 +93,3 @@ task 'Release if all specs pass'
 task :release => [:clean, :bundle, :spec, :features, :package] do
   system("gem push pkg/#{spec.name}-#{spec.version}.gem")
 end
-
-desc 'Install all gem dependencies'
-task :bundle => :gemspec do
-  system("bundle")
-end
