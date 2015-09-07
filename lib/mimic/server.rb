@@ -21,6 +21,7 @@ module Mimic
 
     def start_service(app, options)
       Rack::Handler::Thin.run(app.url_map, {
+        :Host       => options[:Host] || 'localhost',
         :Port       => options[:port],
         :Logger     => logger,
         :AccessLog  => logger
