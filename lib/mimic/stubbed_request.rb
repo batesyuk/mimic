@@ -1,3 +1,5 @@
+require 'helpers/request_echo'
+
 module Mimic
   class StubbedRequest
     attr_accessor :received
@@ -53,7 +55,7 @@ module Mimic
 
     def response_for_request(request)
       if @echo_request_format
-        @body = RequestEcho.new(request).to_s(@echo_request_format)
+        @body = Helpers::RequestEcho.new(request).to_s(@echo_request_format)
       end
 
       matches?(request) ? matched_response : unmatched_response
@@ -61,6 +63,8 @@ module Mimic
 
     def build
       stub = self
+
+      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: STUBBED_REQUEST_BUILD: #{@path}\n") }
 
       @app.send(@method.downcase, @path) do
         stub.received = true

@@ -59,10 +59,10 @@ end
 
 Then /^I should receive an HTTP (\d+) response with the JSON value "([^\"]*)" for the key path "([^\"]*)"$/ do |status, json_value, key_path|
   json = JSON.parse(@httpclient.last_response.to_s)
-  json.value_for_key_path(key_path).should == json_value
+  expect(json.value_for_key_path(key_path)).to eq(json_value)
 end
 
 Then /^I should receive an HTTP (\d+) response with the Plist value "([^\"]*)" for the key path "([^\"]*)"$/ do |status, json_value, key_path|
   plist = Plist.parse_xml(@httpclient.last_response.to_s)
-  plist.value_for_key_path(key_path).should == json_value
+  expect(plist.value_for_key_path(key_path)).to eq(json_value)
 end

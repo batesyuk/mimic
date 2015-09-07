@@ -12,13 +12,24 @@ module Mimic
       self.class.host
     end
 
-    %w{get post put delete head}.each do |verb|
-      post "/#{verb}" do
-        File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: APIREQUEST: #{verb} #{response.body}\n") }
-        api_request = APIRequest.from_request(request, verb)
-        api_request.setup_stubs_on(host)
-        [201, {"Content-Type" => api_request.request_content_type}, api_request.response]
-      end
+    post "/get" do
+      process_request request, 'get'
+    end
+
+    post "/post" do
+      process_request request, 'post'
+    end
+
+    post "/put" do
+      process_request request, 'put'
+    end
+
+    post "/delete" do
+      process_request request, 'delete'
+    end
+
+    post "/head" do
+      process_request request, 'head'
     end
 
     post "/multi" do
@@ -43,6 +54,13 @@ module Mimic
 
     get "/requests" do
       [200, {"Content-Type" => "application/json"}, {"requests" => host.received_requests.map(&:to_hash)}.to_json]
+    end
+
+    def process_request request, verb
+      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: API_PROCESS_REQUEST: #{verb} body: #{request.body.read} #{request.body.length}\n") }
+      api_request = APIRequest.from_request(request, verb)
+      api_request.setup_stubs_on(host)
+      [201, {"Content-Type" => api_request.request_content_type}, api_request.response]
     end
   end
 end

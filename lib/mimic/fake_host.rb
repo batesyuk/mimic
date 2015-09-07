@@ -24,23 +24,23 @@ module Mimic
     end
 
     def get(path, &block)
-      request("GET", path, &block)
+      setup_request_stub("GET", path, &block)
     end
 
     def post(path, &block)
-      request("POST", path, &block)
+      setup_request_stub("POST", path, &block)
     end
 
     def put(path, &block)
-      request("PUT", path, &block)
+      setup_request_stub("PUT", path, &block)
     end
 
     def delete(path, &block)
-      request("DELETE", path, &block)
+      setup_request_stub("DELETE", path, &block)
     end
 
     def head(path, &block)
-      request("HEAD", path, &block)
+      setup_request_stub("HEAD", path, &block)
     end
 
     def import(path)
@@ -53,8 +53,10 @@ module Mimic
     end
 
     def call(env)
+      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_CALL: #{env}\n") }
+
       @stubs.each(&:build)
-      @app.call(env)
+      @app.call(env) # call next middleware in chain
     end
 
     def setup_sinatra
@@ -83,8 +85,8 @@ module Mimic
       @app.send(method, *args, &block)
     end
 
-    def request(method, path, &block)
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_REQUEST: #{method} #{path} #{block_given?}\n") }
+    def setup_request_stub(method, path, &block)
+      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_SETUP_REQUEST: #{method} PATH: #{path} #{block_given?}\n") }
 
       if block_given?
         @app.send(method.downcase, path, &block)

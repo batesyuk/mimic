@@ -1,4 +1,4 @@
-module Mimic  
+module Mimic
   class Stub
     def initialize(data, method = nil)
       @data = data
@@ -6,10 +6,16 @@ module Mimic
     end
 
     def on(host)
-      host.send(@method.downcase.to_sym, path).returning(body, code, headers).tap do |stub|
+      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: STUB: #{host}\n") }
+      get_stub(host).tap do |stub|
+        stub.returning(body, code, headers)
         stub.with_query_parameters(params)
         stub.echo_request!(echo_format)
       end
+    end
+
+    def get_stub(host)
+      host.send(@method.downcase.to_sym, path)
     end
 
     def echo_format

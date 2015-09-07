@@ -20,8 +20,8 @@ class HttpClient
   end
 
   def perform_request_with_payload(url, method, payload, options={})
-    File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: CLIENT_REQUEST: #{method} #{url}\n") }
-    RestClient.send(method.downcase, url, payload, options) do |response, request|
+    File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: CLIENT_REQUEST: #{method} #{url} #{payload}\n") }
+    RestClient.send(method.downcase, url, "#{payload}", options) do |response, request|
       File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: CLIENT_RESPONSE: #{response.code} #{response.body}\n") }
       @last_response = response
     end
