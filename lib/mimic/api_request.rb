@@ -38,8 +38,6 @@ module Mimic
           data = request.body.string && request.body.string.length >= 2 ? JSON.parse(request.body.string) : {}
       end
 
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: APIREQUEST_CREATE: #{request.body.length} #{data}\n") }
-
       new(data, method, request.content_type)
     end
 

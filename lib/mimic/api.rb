@@ -57,7 +57,6 @@ module Mimic
     end
 
     def process_request request, verb
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: API_PROCESS_REQUEST: #{verb} body: #{request.body.read} #{request.body.length}\n") }
       api_request = APIRequest.from_request(request, verb)
       api_request.setup_stubs_on(host)
       [201, {"Content-Type" => api_request.request_content_type}, api_request.response]

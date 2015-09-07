@@ -30,7 +30,7 @@ spec = Gem::Specification.new do |s|
   # Change these as appropriate
   s.name              = "mimic2"
   s.version           = "2.0.0"
-  s.summary           = "A Ruby gem for faking external web services for testing, forked version of Luke Redpath's mimic"
+  s.summary           = "A Ruby gem for faking external web services for testing, forked and updated version of Luke Redpath's mimic"
   s.authors           = "Luke Redpath, Nic Jackson"
   s.email             = "jackson.nic@gmail.com, luke@lukeredpath.co.uk"
   s.homepage          = "https://github.com/nicholasjackson/mimic"
@@ -86,7 +86,7 @@ end
 
 desc 'Clear out RDoc and generated packages'
 task :clean => [:clobber_rdoc, :clobber_package] do
-  rm "#{spec.name}.gemspec"
+  rm "#{spec.name}.gemspec" if File.exists? "#{spec.name}.gemspec"
 end
 
 task 'Release if all specs pass'

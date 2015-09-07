@@ -19,7 +19,6 @@ module Mimic
     end
 
     def received_requests
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_RECEIVED_REQUESTS: #{@stubs}\n") }
       @stubs.select { |s| s.received }
     end
 
@@ -53,8 +52,6 @@ module Mimic
     end
 
     def call(env)
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_CALL: #{env}\n") }
-
       @stubs.each(&:build)
       @app.call(env) # call next middleware in chain
     end
@@ -86,8 +83,6 @@ module Mimic
     end
 
     def setup_request_stub(method, path, &block)
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: FAKE_HOST_SETUP_REQUEST: #{method} PATH: #{path} #{block_given?}\n") }
-
       if block_given?
         @app.send(method.downcase, path, &block)
       else

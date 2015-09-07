@@ -6,7 +6,6 @@ module Mimic
     end
 
     def on(host)
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: STUB: #{host}\n") }
       get_stub(host).tap do |stub|
         stub.returning(body, code, headers)
         stub.with_query_parameters(params)

@@ -64,8 +64,6 @@ module Mimic
     def build
       stub = self
 
-      File.open("./log.txt", 'a') { |file| file.write("#{Time.now}: STUBBED_REQUEST_BUILD: #{@path}\n") }
-
       @app.send(@method.downcase, @path) do
         stub.received = true
         stub.response_for_request(request)
