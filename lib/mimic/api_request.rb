@@ -33,7 +33,7 @@ module Mimic
         when /json/
           data = JSON.parse(request.body.string)
         when /plist/
-          data = Plist.parse_xml(request.body.string)
+          data = Plist.parse_xml(request.body.string.force_encoding("UTF-8"))
         else
           data = request.body.string && request.body.string.length >= 2 ? JSON.parse(request.body.string) : {}
       end
